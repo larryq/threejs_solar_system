@@ -7,6 +7,8 @@ import {
   Ring,
   Environment,
   useTexture,
+  useProgress,
+  Html,
 } from "@react-three/drei";
 
 import Starz from "./Stars";
@@ -23,10 +25,15 @@ export default function App() {
   const ref = useRef();
   const cameraControlsRef = useRef();
 
+  function Loader() {
+    const { active, progress, errors, item, loaded, total } = useProgress();
+    return <Html center>{progress} % loaded</Html>;
+  }
+
   return (
     <Canvas shadows dpr={[1, 2]} camera={{ fov: 50 }}>
       <color attach="background" args={["black"]} />
-      <Suspense fallback={null}>
+      <Suspense fallback={<Loader />}>
         <Stage
           controls={ref}
           preset="portrait"
