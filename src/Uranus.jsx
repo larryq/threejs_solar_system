@@ -1,9 +1,10 @@
 import { useFrame, extend } from "@react-three/fiber";
 import { LayerMaterial, Depth, Fresnel } from "lamina";
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import FresnelMaterial from "./effects/Fresnel";
 import Marker from "./effects/Marker";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import { useTexture, Html } from "@react-three/drei";
 
 import SwirlEffect from "./SwirlEffect";
 
@@ -15,6 +16,12 @@ const Planet = ({ camRef, position, rotation, scale }) => {
   const groupRef = useRef();
   const markerRef = useRef();
   const markerPosition = [0, 15.0, 0];
+  const [isOpen, setIsOpen] = useState(false);
+  const htmlRef = useRef();
+
+  const handleClick = () => {
+    setIsOpen(!isOpen);
+  };
 
   useFrame((state, delta) => {
     const { clock, size } = state;
@@ -27,6 +34,11 @@ const Planet = ({ camRef, position, rotation, scale }) => {
         meshRef.current.position.y +
         meshRef.current.geometry.boundingSphere?.radius * scale +
         2.0;
+    }
+
+    if (isOpen) {
+      // Update the position of the Html element (optional)
+      htmlRef.current.position = [0, 1, 0]; // Example position adjustment
     }
   });
 
@@ -68,7 +80,7 @@ const Planet = ({ camRef, position, rotation, scale }) => {
         <shaderMaterial attach="material" {...FresnelMaterial} />
       </mesh>
       <group position={markerPosition} ref={markerRef}>
-        <Marker scale={1} rotation={rotation}>
+        <Marker scale={1} rotation={rotation} onClick={handleClick}>
           <div
             style={{
               position: "absolute",
@@ -77,12 +89,66 @@ const Planet = ({ camRef, position, rotation, scale }) => {
               letterSpacing: -0.5,
               left: 17.5,
             }}
-            onClick={() => {}}
+            onClick={handleClick}
           >
             Uranus
           </div>
           <FaMapMarkerAlt style={{ color: "brown" }} />
         </Marker>
+        {isOpen && (
+          <Html ref={htmlRef}>
+            <div
+              onClick={handleClick}
+              style={{
+                // Full screen dimensions (adjust as needed)
+                width: "30vw",
+                height: "30vh",
+                position: "absolute",
+                top: 0,
+                left: 0,
+                // Transparent background with slight opacity
+                backgroundColor: "rgba(0, 0, 0, 0.7)",
+                // Center the text content
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                // Nice font and text styling
+                fontSize: "24px",
+                fontFamily: "Arial, sans-serif",
+                color: "#fff",
+                // Add a border for better visibility
+                border: "2px solid #fff",
+                borderRadius: "5px",
+                // Optional padding for better text spacing
+                padding: "20px",
+              }}
+            >
+              {/* Title */}
+              <h2
+                style={{
+                  fontSize: "24px",
+                  fontWeight: "bold",
+                  marginBottom: "10px",
+                }}
+              >
+                Uranus
+              </h2>
+              {/* Regular text */}
+              <p style={{ fontSize: "16px", lineHeight: "1.5" }}>
+                Distance to Earth: 1.8 billion miles <br />
+                Made up of Hydrogen, Helium and water
+                <br />
+                A gas giant
+                <br />
+              </p>
+              {/* Footnote */}
+              <div style={{ fontSize: "12px", color: "#ccc" }}>
+                Click the "Uranus" marker above to close this dialog
+              </div>
+            </div>
+          </Html>
+        )}
       </group>
     </group>
   );

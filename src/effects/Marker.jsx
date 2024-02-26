@@ -15,6 +15,9 @@ function Marker({ children, ...props }) {
   // This holds the local occluded state
   const [isOccluded, setOccluded] = useState();
   const [isInRange, setInRange] = useState();
+
+  const htmlRef = useRef();
+
   const isVisible = true; //isInRange && !isOccluded;
   // Test distance
   const vec = new THREE.Vector3();
@@ -25,11 +28,6 @@ function Marker({ children, ...props }) {
   });
   return (
     <group ref={ref}>
-      <mesh
-        onClick={() => {
-          console.log("sdfsdfsdfsd");
-        }}
-      ></mesh>
       <Html
         // 3D-transform contents
         transform

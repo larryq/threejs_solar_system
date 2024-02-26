@@ -95,7 +95,7 @@ export default function App() {
             />
             <Saturn
               camRef={cameraControlsRef}
-              position={[-90, 0, -8]}
+              position={[-77, 0, 14]}
               rotation={[0, Math.PI, 0]}
               scale={3.0}
             />
@@ -111,29 +111,16 @@ export default function App() {
               rotation={[0, Math.PI, 0]}
               scale={3.0}
             />
+            <mesh onLoad={() => {}}></mesh>
           </group>
-          {/*           <Text
-            color="white"
-            anchorX="center"
-            anchorY="middle"
-            onClick={() => {
-              console.log("sdfsdfsf");
-            }}
-          >
-            hello world!
-          </Text> */}
+
           {/* <Environment files="hdr.hdr" background /> */}
         </Stage>
       </Suspense>
-      {/*       <Html visible={false}>
-        <div
-          style={{ position: "absolute", top: 30, left: 10, color: "white" }}
-        >
-          Overlay Text Example
-        </div>
-      </Html> */}
+
       <CameraControls
         target={[0, 0, 0]}
+        position={[-15, 15, 0]}
         ref={cameraControlsRef}
         //minDistance={0}
         // maxDistance={200}

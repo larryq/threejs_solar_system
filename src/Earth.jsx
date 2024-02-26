@@ -35,24 +35,7 @@ export default function Earth({ camRef, position, rotation, scale }) {
 
   return (
     <group ref={groupRef} position={position} scale={scale}>
-      <mesh
-        ref={meshRef}
-        onClick={() => {
-          console.log(position);
-          camRef.current?.setLookAt(
-            meshRef.current.geometry.boundingSphere.radius + 1,
-            meshRef.current.geometry.boundingSphere.radius - 1,
-            meshRef.current.geometry.boundingSphere.radius + 1,
-            meshRef.current.position.x,
-            meshRef.current.position.y,
-            meshRef.current.position.z,
-            // position.x,
-            // position.y,
-            // position.z,
-            false
-          );
-        }}
-      >
+      <mesh ref={meshRef} onClick={() => {}}>
         <icosahedronGeometry args={[1, 12]} />
         <meshPhongMaterial
           //attach="material"

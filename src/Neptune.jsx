@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { useFrame, extend } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
-import { useTexture } from "@react-three/drei";
+import { useMemo, useRef, useState } from "react";
+import { useTexture, Html } from "@react-three/drei";
 import JupiterFresnel from "./effects/JupiterFresnel";
 import Marker from "./effects/Marker";
 import { FaMapMarkerAlt } from "react-icons/fa";
@@ -19,6 +19,9 @@ const Planet = ({ camRef, position, rotation, scale }) => {
     //normalMap: normalMap,
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+  const htmlRef = useRef();
+
   const markerPosition = [0, 15.0, 0];
 
   useFrame((state, delta) => {
@@ -35,24 +38,14 @@ const Planet = ({ camRef, position, rotation, scale }) => {
     }
   });
 
+  const handleClick = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <>
       <group ref={groupRef} position={position} rotation={rotation}>
-        <mesh
-          scale={scale}
-          ref={meshRef}
-          onClick={() => {
-            camRef.current?.setLookAt(
-              meshRef.current.geometry.boundingSphere.radius + 3,
-              meshRef.current.geometry.boundingSphere.radius - 3,
-              meshRef.current.geometry.boundingSphere.radius + 3,
-              meshRef.current.position.x,
-              meshRef.current.position.y,
-              meshRef.current.position.z,
-              true
-            );
-          }}
-        >
+        <mesh scale={scale} ref={meshRef} onClick={() => {}}>
           <icosahedronGeometry args={[2, 11]} />
           <meshPhongMaterial
             //attach="material"
@@ -74,14 +67,66 @@ const Planet = ({ camRef, position, rotation, scale }) => {
                 letterSpacing: -0.5,
                 left: 17.5,
               }}
-              onClick={() => {
-                console.log("sdfsdfsdfsd");
-              }}
+              onClick={handleClick}
             >
               Neptune
             </div>
             <FaMapMarkerAlt style={{ color: "purple" }} />
           </Marker>
+          {isOpen && (
+            <Html ref={htmlRef}>
+              <div
+                onClick={handleClick}
+                style={{
+                  // Full screen dimensions (adjust as needed)
+                  width: "30vw",
+                  height: "30vh",
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  // Transparent background with slight opacity
+                  backgroundColor: "rgba(0, 0, 0, 0.7)",
+                  // Center the text content
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  // Nice font and text styling
+                  fontSize: "24px",
+                  fontFamily: "Arial, sans-serif",
+                  color: "#fff",
+                  // Add a border for better visibility
+                  border: "2px solid #fff",
+                  borderRadius: "5px",
+                  // Optional padding for better text spacing
+                  padding: "20px",
+                }}
+              >
+                {/* Title */}
+                <h2
+                  style={{
+                    fontSize: "24px",
+                    fontWeight: "bold",
+                    marginBottom: "10px",
+                  }}
+                >
+                  Neptune
+                </h2>
+                {/* Regular text */}
+                <p style={{ fontSize: "16px", lineHeight: "1.5" }}>
+                  Distance to Earth: 2.86 billion miles <br />
+                  Our most distant planet
+                  <br />
+                  Strongest winds in the solar system
+                  <br />
+                </p>
+                {/* Footnote */}
+                <div style={{ fontSize: "12px", color: "#ccc" }}>
+                  Click the "Neptune" marker above to close this dialog
+                </div>
+              </div>
+            </Html>
+          )}
         </group>
       </group>
     </>

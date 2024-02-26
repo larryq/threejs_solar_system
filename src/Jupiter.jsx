@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { useFrame, extend } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
-import { useTexture } from "@react-three/drei";
+import { useMemo, useRef, useState } from "react";
+import { useTexture, Html } from "@react-three/drei";
 import JupiterFresnel from "./effects/JupiterFresnel";
 import Marker from "./effects/Marker";
 import { FaMapMarkerAlt } from "react-icons/fa";
@@ -11,6 +11,9 @@ const Planet = ({ camRef, position, rotation, scale }) => {
   const meshRef = useRef();
   const groupRef = useRef();
   const markerRef = useRef();
+
+  const [isOpen, setIsOpen] = useState(false);
+  const htmlRef = useRef();
 
   const [map] = useTexture(["8k_jupiter.jpg"]);
 
@@ -33,7 +36,20 @@ const Planet = ({ camRef, position, rotation, scale }) => {
         meshRef.current.geometry.boundingSphere?.radius * scale +
         2.0;
     }
+
+    if (isOpen) {
+      // Update the position of the Html element (optional)
+      htmlRef.current.position = [0, 1, 0]; // Example position adjustment
+    }
   });
+
+  const handleClick = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleOverlayClick = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
     <>
@@ -74,14 +90,67 @@ const Planet = ({ camRef, position, rotation, scale }) => {
                 letterSpacing: -0.5,
                 left: 17.5,
               }}
-              onClick={() => {
-                console.log("sdfsdfsdfsd");
-              }}
+              onClick={handleClick}
             >
               Jupiter
             </div>
+
             <FaMapMarkerAlt style={{ color: "indianred" }} />
           </Marker>
+          {isOpen && (
+            <Html ref={htmlRef}>
+              <div
+                onClick={handleOverlayClick}
+                style={{
+                  // Full screen dimensions (adjust as needed)
+                  width: "30vw",
+                  height: "30vh",
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  // Transparent background with slight opacity
+                  backgroundColor: "rgba(0, 0, 0, 0.7)",
+                  // Center the text content
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  // Nice font and text styling
+                  fontSize: "24px",
+                  fontFamily: "Arial, sans-serif",
+                  color: "#fff",
+                  // Add a border for better visibility
+                  border: "2px solid #fff",
+                  borderRadius: "5px",
+                  // Optional padding for better text spacing
+                  padding: "20px",
+                }}
+              >
+                {/* Title */}
+                <h2
+                  style={{
+                    fontSize: "24px",
+                    fontWeight: "bold",
+                    marginBottom: "10px",
+                  }}
+                >
+                  Jupiter
+                </h2>
+                {/* Regular text */}
+                <p style={{ fontSize: "16px", lineHeight: "1.5" }}>
+                  Distance to Earth: 444 million miles <br />
+                  The largest planet in the solar system
+                  <br />
+                  A gas giant
+                  <br />
+                </p>
+                {/* Footnote */}
+                <div style={{ fontSize: "12px", color: "#ccc" }}>
+                  Click the "Jupiter" marker above to close this dialog
+                </div>
+              </div>
+            </Html>
+          )}
         </group>
       </group>
     </>
