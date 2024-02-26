@@ -1,3 +1,4 @@
+import "./style.css";
 import React, { Suspense, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
@@ -24,6 +25,8 @@ import Venus from "./Venus.jsx";
 import Jupiter from "./Jupiter.jsx";
 import * as THREE from "three";
 import Saturn from "./Saturn.jsx";
+import Mercury from "./Mercury.jsx";
+import Neptune from "./Neptune.jsx";
 
 export default function App() {
   const ref = useRef();
@@ -34,10 +37,19 @@ export default function App() {
     return <Html center>{progress} % loaded</Html>;
   }
 
+  function Loader2() {
+    return (
+      <Html>
+        {" "}
+        <div className="loading">Loading...</div>
+      </Html>
+    );
+  }
+
   return (
     <Canvas shadows dpr={[1, 2]} camera={{ fov: 50 }}>
       <color attach="background" args={["black"]} />
-      <Suspense fallback={<Loader />}>
+      <Suspense fallback={<Loader2 />}>
         <Stage
           controls={ref}
           preset="portrait"
@@ -46,28 +58,32 @@ export default function App() {
         >
           <Starz />
           <group>
-            <Earth camRef={cameraControlsRef} position={[25, 0, 5]} />
+            <Earth
+              camRef={cameraControlsRef}
+              position={[25, 0, 5]}
+              scale={3.5}
+            />
             <Uranus
               camRef={cameraControlsRef}
-              position={[70, 0, 0]}
+              position={[70, 0, 45]}
               rotation={[0, Math.PI, 0]}
-              scale={4.5}
+              scale={3.5}
             />
             <Sun
               camRef={cameraControlsRef}
               position={[0, 0, 0]}
               rotation={[0, Math.PI, 0]}
-              scale={8.5}
+              scale={11.5}
             />
             <Mars
               camRef={cameraControlsRef}
-              position={[35, 0, 9]}
+              position={[35, 0, 19]}
               rotation={[0, Math.PI, 0]}
-              scale={2.5}
+              scale={1.5}
             />
             <Venus
               camRef={cameraControlsRef}
-              position={[15, 0, -6]}
+              position={[15, 0, -18]}
               rotation={[0, Math.PI, 0]}
               scale={1.5}
             />
@@ -75,13 +91,25 @@ export default function App() {
               camRef={cameraControlsRef}
               position={[-50, 0, -21]}
               rotation={[0, Math.PI, 0]}
-              scale={4.5}
+              scale={3.5}
             />
             <Saturn
               camRef={cameraControlsRef}
-              position={[-65, 0, -8]}
+              position={[-90, 0, -8]}
               rotation={[0, Math.PI, 0]}
-              scale={4.0}
+              scale={3.0}
+            />
+            <Mercury
+              camRef={cameraControlsRef}
+              position={[-2, 0, 16]}
+              rotation={[0, Math.PI, 0]}
+              scale={1.0}
+            />
+            <Neptune
+              camRef={cameraControlsRef}
+              position={[-2, 0, -36]}
+              rotation={[0, Math.PI, 0]}
+              scale={3.0}
             />
           </group>
           {/*           <Text
@@ -105,14 +133,15 @@ export default function App() {
         </div>
       </Html> */}
       <CameraControls
+        target={[0, 0, 0]}
         ref={cameraControlsRef}
-        //minDistance={minDistance}
+        //minDistance={0}
+        // maxDistance={200}
         enabled={true}
-        verticalDragToForward={false}
-        dollySpeed={0.11}
-
+        verticalDragToForward={true}
+        dollySpeed={0.31}
         //dollyToCursor={dollyToCursor}
-        //infinityDolly={infinityDolly}
+        //infinityDolly={true}
       />
     </Canvas>
   );

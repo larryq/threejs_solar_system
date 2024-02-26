@@ -34,7 +34,7 @@ function Marker({ children, ...props }) {
         // 3D-transform contents
         transform
         // Hide contents "behind" other meshes
-        //occlude
+        occlude={true}
         // Tells us when contents are occluded (or not)
         onOcclude={setOccluded}
         // We just interpolate the visible state into css opacity and transforms

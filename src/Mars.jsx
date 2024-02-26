@@ -3,11 +3,15 @@ import { useFrame, extend } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
 import { useTexture } from "@react-three/drei";
 import MarsFresnel from "./effects/MarsFresnel";
+import Marker from "./effects/Marker";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 const Planet = ({ camRef, position, rotation, scale }) => {
   const materialRef = useRef();
   const meshRef = useRef();
   const groupRef = useRef();
+  const markerRef = useRef();
+  const markerPosition = [0, 4.0, 0];
 
   const [map, normalMap] = useTexture(["8k_mars.jpg", "Mars-normalmap_2k.png"]);
 
@@ -19,14 +23,12 @@ const Planet = ({ camRef, position, rotation, scale }) => {
   useFrame((state, delta) => {
     const { clock, size } = state;
 
-    meshRef.current.rotation.y += delta / 1;
+    meshRef.current.rotation.y += delta / 10;
   });
 
   return (
-    <group ref={groupRef}>
+    <group ref={groupRef} position={position} rotation={rotation}>
       <mesh
-        position={position}
-        rotation={rotation}
         scale={scale}
         ref={meshRef}
         onClick={() => {
@@ -48,10 +50,29 @@ const Planet = ({ camRef, position, rotation, scale }) => {
           side={THREE.DoubleSide}
         ></meshPhongMaterial>
       </mesh>
-      <mesh position={position} rotation={rotation} scale={scale * 1.01}>
+      <mesh scale={scale * 1.01}>
         <icosahedronGeometry args={[2, 11]} />
         <shaderMaterial attach="material" {...MarsFresnel} />
       </mesh>
+      <group position={markerPosition} ref={markerRef}>
+        <Marker scale={1} rotation={rotation}>
+          <div
+            style={{
+              position: "absolute",
+              fontSize: 10,
+              color: "white",
+              letterSpacing: -0.5,
+              left: 17.5,
+            }}
+            onClick={() => {
+              console.log("sdfsdfsdfsd");
+            }}
+          >
+            Mars
+          </div>
+          <FaMapMarkerAlt style={{ color: "lightblue" }} />
+        </Marker>
+      </group>
     </group>
   );
 };

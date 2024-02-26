@@ -14,14 +14,12 @@ const Planet = ({ camRef, position, rotation, scale }) => {
 
   const matOpts = {
     map: map,
-    normalMap: normalMap,
   };
 
   useFrame((state, delta) => {
     const { clock, size } = state;
 
     meshRef.current.rotation.y -= delta / 30;
-    cloudRef.current.rotation.y += delta / 20;
   });
 
   return (
@@ -48,10 +46,11 @@ const Planet = ({ camRef, position, rotation, scale }) => {
         <meshPhongMaterial
           //attach="material"
           args={[matOpts]}
+          side={THREE.DoubleSide}
         ></meshPhongMaterial>
       </mesh>
       <mesh
-        scale={3.013}
+        scale={1.013}
         ref={cloudRef}
         position={position}
         rotation={rotation}

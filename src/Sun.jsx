@@ -10,9 +10,14 @@ const Sun = ({ camRef, position, rotation, scale }) => {
   const sunRef = useRef();
   const matRef = useRef();
   const groupRef = useRef();
+  const cloudRef = useRef();
 
   const [noise] = useTexture(["sunNoise.png"]);
-  const [map] = useTexture(["8k_sun.jpg"]);
+  const [map, cloudMap, cloudTransMap] = useTexture([
+    "8k_sun.jpg",
+    "04_earthcloudmap.jpg",
+    "05_earthcloudmaptrans.jpg",
+  ]);
 
   const matOpts = {
     map: map,
@@ -24,14 +29,9 @@ const Sun = ({ camRef, position, rotation, scale }) => {
       matRef.current.uniforms.time.value = state.clock.getElapsedTime();
       matRef.current.uniforms.width.value = state.size.width;
       matRef.current.uniforms.height.value = state.size.height;
-
-      /* 
-      matRef.current.uniforms.noiseTexture.value = noise;
-
-      matRef.current.uniforms.sunColor.value = new THREE.Color(0xfff00);
-      matRef.current.uniforms.uColorStart.value = new THREE.Color("#ffffff");
-      matRef.current.uniforms.uColorEnd.value = new THREE.Color("#000000"); */
     }
+    cloudRef.current.rotation.y += delta / 12;
+    groupRef.current.rotation.y -= delta / 13;
   });
   return (
     <group ref={groupRef}>
@@ -59,7 +59,22 @@ const Sun = ({ camRef, position, rotation, scale }) => {
           side={THREE.DoubleSide}
         ></meshPhongMaterial>
       </mesh>
-      <mesh position={position} scale={2.001} rotation={rotation}>
+      <mesh scale={scale * 1.004} ref={cloudRef}>
+        <icosahedronGeometry args={[1, 12]} />
+        <meshStandardMaterial
+          //attach="material"
+          args={[
+            {
+              map: cloudMap,
+              alphaMap: cloudTransMap,
+              opacity: 0.25,
+              transparent: false,
+              blending: THREE.AdditiveBlending,
+            },
+          ]}
+        ></meshStandardMaterial>
+      </mesh>
+      <mesh position={position} scale={5.901} rotation={rotation}>
         <icosahedronGeometry args={[2, 11]} />
         <shaderMaterial attach="material" {...SunFresnel} />
       </mesh>

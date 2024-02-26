@@ -5,7 +5,7 @@ import * as THREE from "three";
 
 import FresnelMaterial from "./effects/Fresnel";
 
-export default function Earth({ camRef, position, rotation }) {
+export default function Earth({ camRef, position, rotation, scale }) {
   const [map, specularMap, bumpMap, cloudMap, cloudTransMap, lightsMap] =
     useTexture([
       "1_earth_8k.jpg", //"2_no_clouds_8k.jpg", //"00_earthmap1k.jpg",
@@ -34,7 +34,7 @@ export default function Earth({ camRef, position, rotation }) {
   const meshRef = React.useRef();
 
   return (
-    <group ref={groupRef} position={position}>
+    <group ref={groupRef} position={position} scale={scale}>
       <mesh
         ref={meshRef}
         onClick={() => {

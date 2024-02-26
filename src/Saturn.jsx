@@ -25,7 +25,7 @@ const Planet = ({ camRef, position, rotation, scale }) => {
   useFrame((state, delta) => {
     const { clock, size } = state;
 
-    meshRef.current.rotation.y += delta / 7;
+    meshRef.current.rotation.y += delta / 2;
     //markerRef.current.rotation.y += delta / 7;
     markerRef.current.position.y = 1;
     if (meshRef.current.geometry.boundingSphere?.radius) {
@@ -58,6 +58,7 @@ const Planet = ({ camRef, position, rotation, scale }) => {
           <meshPhongMaterial
             //attach="material"
             args={[matOpts]}
+            side={THREE.DoubleSide}
           ></meshPhongMaterial>
         </mesh>
         <mesh scale={scale * 1.01}>
@@ -81,7 +82,7 @@ const Planet = ({ camRef, position, rotation, scale }) => {
                 console.log("sdfsdfsdfsd");
               }}
             >
-              Click
+              Saturn
             </div>
             <FaMapMarkerAlt style={{ color: "blue" }} />
           </Marker>

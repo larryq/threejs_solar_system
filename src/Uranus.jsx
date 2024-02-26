@@ -2,6 +2,8 @@ import { useFrame, extend } from "@react-three/fiber";
 import { LayerMaterial, Depth, Fresnel } from "lamina";
 import { useMemo, useRef } from "react";
 import FresnelMaterial from "./effects/Fresnel";
+import Marker from "./effects/Marker";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 import SwirlEffect from "./SwirlEffect";
 
@@ -11,6 +13,8 @@ const Planet = ({ camRef, position, rotation, scale }) => {
   const materialRef = useRef();
   const meshRef = useRef();
   const groupRef = useRef();
+  const markerRef = useRef();
+  const markerPosition = [0, 15.0, 0];
 
   useFrame((state, delta) => {
     const { clock, size } = state;
@@ -18,13 +22,17 @@ const Planet = ({ camRef, position, rotation, scale }) => {
     materialRef.current.width = size.width;
     materialRef.current.height = size.height;
     meshRef.current.rotation.y += delta / 20;
+    if (meshRef.current.geometry.boundingSphere?.radius) {
+      markerRef.current.position.y =
+        meshRef.current.position.y +
+        meshRef.current.geometry.boundingSphere?.radius * scale +
+        2.0;
+    }
   });
 
   return (
-    <group ref={groupRef}>
+    <group ref={groupRef} position={position} rotation={rotation}>
       <mesh
-        position={position}
-        rotation={rotation}
         scale={scale}
         ref={meshRef}
         onClick={() => {
@@ -42,11 +50,6 @@ const Planet = ({ camRef, position, rotation, scale }) => {
       >
         <icosahedronGeometry args={[2, 11]} />
         <LayerMaterial lighting="lambert">
-          {/* First layer is our own custom layer that's based of the FBM shader */}
-          {/* 
-          Notice how we can use *any* uniforms as prop here 👇
-          You can tweak the colors by adding a colorA or colorB prop!
-        */}
           <swirlEffect
             ref={materialRef}
             width={4.0}
@@ -60,10 +63,27 @@ const Planet = ({ camRef, position, rotation, scale }) => {
           {/* <Fresnel color="#FEB3D9" mode="add" /> */}
         </LayerMaterial>
       </mesh>
-      <mesh position={position} rotation={rotation} scale={scale * 1.01}>
+      <mesh scale={scale * 1.01}>
         <icosahedronGeometry args={[2, 11]} />
         <shaderMaterial attach="material" {...FresnelMaterial} />
       </mesh>
+      <group position={markerPosition} ref={markerRef}>
+        <Marker scale={1} rotation={rotation}>
+          <div
+            style={{
+              position: "absolute",
+              fontSize: 10,
+              color: "white",
+              letterSpacing: -0.5,
+              left: 17.5,
+            }}
+            onClick={() => {}}
+          >
+            Uranus
+          </div>
+          <FaMapMarkerAlt style={{ color: "brown" }} />
+        </Marker>
+      </group>
     </group>
   );
 };

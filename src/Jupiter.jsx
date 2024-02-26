@@ -57,6 +57,7 @@ const Planet = ({ camRef, position, rotation, scale }) => {
           <meshPhongMaterial
             //attach="material"
             args={[matOpts]}
+            side={THREE.DoubleSide}
           ></meshPhongMaterial>
         </mesh>
         <mesh scale={scale * 1.01}>
@@ -77,7 +78,7 @@ const Planet = ({ camRef, position, rotation, scale }) => {
                 console.log("sdfsdfsdfsd");
               }}
             >
-              Click
+              Jupiter
             </div>
             <FaMapMarkerAlt style={{ color: "indianred" }} />
           </Marker>
