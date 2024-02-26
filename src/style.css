@@ -10,26 +10,36 @@ body,
     background: ivory;
 }
 
-.loading {
-    /* Center the content horizontally */
+
+
+
+  .loading {
+    /* Center the content horizontally and vertically */
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column; /* Stack elements vertically */
   
     /* Style the loading message */
     font-size: 20px;
     font-weight: bold;
     color: #333;
+    margin-bottom: 10px; /* Add space between message and bar */
   
-    /* Animate the text with a smooth blinking effect */
-    animation: blink 1.5s infinite;
-  }
+    /* Create and style the progress bar */
+    width: 200px; /* Adjust width as needed */
+    height: 5px; /* Adjust height as desired */
+    background-color: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
   
-  @keyframes blink {
-    from, to {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.5;
+    /* Create the progress bar fill element */
+    &::before {
+      content: "";
+      display: block;
+      width: 0%; /* Initial state */
+      height: 100%; /* Fill entire height */
+      background-color: #4CAF50; /* Progress bar color */
+      transition: width 0.5s ease-in-out; /* Smooth transition */
     }
   }
