@@ -29,6 +29,13 @@ const Rings = ({ camRef, position, rotation, scale, color, numRings }) => {
           outerRadius: { value: 80 },
         }}
         side={THREE.DoubleSide}
+        args={[
+          {
+            opacity: 0.55,
+            transparent: false,
+            blending: THREE.MultiplyBlending,
+          },
+        ]}
       />
     </Ring>
   );

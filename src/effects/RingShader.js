@@ -3,7 +3,7 @@ import { extend, useFrame } from "@react-three/fiber";
 import { useMemo, useRef, useState } from "react";
 
 const texture1 = new THREE.TextureLoader().load(
-    "saturn-rings-top.png"
+    "2k_saturn_ring.png"
   );
 
 const vertexShader = `
@@ -39,7 +39,7 @@ vec4 color() {
 }
 
 void main() {
-    vec4 testColor = vec4(0.,1.,1.,1.);
+    vec4 testColor = vec4(color().xyz, 0.8);
   gl_FragColor = color();
 }
 `
