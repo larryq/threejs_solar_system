@@ -38,6 +38,7 @@ export default function Earth({ camRef, position, rotation }) {
       <mesh
         ref={meshRef}
         onClick={() => {
+          console.log(position);
           camRef.current?.setLookAt(
             meshRef.current.geometry.boundingSphere.radius + 1,
             meshRef.current.geometry.boundingSphere.radius - 1,
@@ -45,7 +46,10 @@ export default function Earth({ camRef, position, rotation }) {
             meshRef.current.position.x,
             meshRef.current.position.y,
             meshRef.current.position.z,
-            true
+            // position.x,
+            // position.y,
+            // position.z,
+            false
           );
         }}
       >
@@ -53,15 +57,9 @@ export default function Earth({ camRef, position, rotation }) {
         <meshPhongMaterial
           //attach="material"
           args={[matOpts]}
+          side={THREE.DoubleSide}
         ></meshPhongMaterial>
       </mesh>
-      {/* <mesh>
-        <icosahedronGeometry args={[1, 12]} />
-        <meshBasicMaterial
-          //attach="material"
-          args={[{ map: lightsMap, blending: THREE.AdditiveBlending }]}
-        ></meshBasicMaterial>
-      </mesh> */}
 
       <mesh scale={1.003} ref={cloudRef}>
         <icosahedronGeometry args={[1, 12]} />

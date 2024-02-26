@@ -11,19 +11,11 @@ import {
 import RingShader from "./RingShader";
 
 const Rings = ({ camRef, position, rotation, scale, color, numRings }) => {
-  const [map, alphaMap, map2] = useTexture([
-    "2k_saturn_ring.png",
-    "2k_saturn_ring.png",
-    "saturn-rings-top.png",
-  ]);
   const [ringTexture] = useTexture(["2k_saturn_ring.png"]);
-  const texture1 = new THREE.TextureLoader().load(
-    "https://i.postimg.cc/zz7Gr430/saturn-rings-topp.png"
-  );
+
   return (
     <Ring
-      args={[3, 25, 64]} // Inner radius, outer radius, segments
-      position={[0, 0, 0]}
+      args={[9, 16, 7200]} // Inner radius, outer radius, segments
       rotation={[Math.PI / 4, 0, 0]} // Rotate the ring
       side={THREE.DoubleSide}
     >
@@ -33,8 +25,8 @@ const Rings = ({ camRef, position, rotation, scale, color, numRings }) => {
         vertexShader={RingShader.vertexShader}
         uniforms={{
           texture1: { value: ringTexture },
-          innerRadius: { value: 3 },
-          outerRadius: { value: 25 },
+          innerRadius: { value: 1 },
+          outerRadius: { value: 80 },
         }}
         side={THREE.DoubleSide}
       />

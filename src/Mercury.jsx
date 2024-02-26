@@ -8,8 +8,9 @@ const Planet = ({ camRef, position, rotation, scale }) => {
   const materialRef = useRef();
   const meshRef = useRef();
   const groupRef = useRef();
+  const cloudRef = useRef();
 
-  const [map, normalMap] = useTexture(["8k_mars.jpg", "Mars-normalmap_2k.png"]);
+  const [map] = useTexture(["2k_mercury.jpg"]);
 
   const matOpts = {
     map: map,
@@ -19,7 +20,8 @@ const Planet = ({ camRef, position, rotation, scale }) => {
   useFrame((state, delta) => {
     const { clock, size } = state;
 
-    meshRef.current.rotation.y += delta / 1;
+    meshRef.current.rotation.y -= delta / 30;
+    cloudRef.current.rotation.y += delta / 20;
   });
 
   return (
@@ -39,14 +41,32 @@ const Planet = ({ camRef, position, rotation, scale }) => {
             meshRef.current.position.z,
             true
           );
+          console.log(meshRef.current);
         }}
       >
         <icosahedronGeometry args={[2, 11]} />
         <meshPhongMaterial
           //attach="material"
           args={[matOpts]}
-          side={THREE.DoubleSide}
         ></meshPhongMaterial>
+      </mesh>
+      <mesh
+        scale={3.013}
+        ref={cloudRef}
+        position={position}
+        rotation={rotation}
+      >
+        <icosahedronGeometry args={[1, 12]} />
+        <meshStandardMaterial
+          //attach="material"
+          args={[
+            {
+              map: map,
+
+              blending: THREE.AdditiveBlending,
+            },
+          ]}
+        ></meshStandardMaterial>
       </mesh>
       <mesh position={position} rotation={rotation} scale={scale * 1.01}>
         <icosahedronGeometry args={[2, 11]} />
@@ -56,7 +76,7 @@ const Planet = ({ camRef, position, rotation, scale }) => {
   );
 };
 
-const Mars = ({ camRef, position, rotation, scale }) => {
+const Mercury = ({ camRef, position, rotation, scale }) => {
   return (
     <Planet
       camRef={camRef}
@@ -67,4 +87,4 @@ const Mars = ({ camRef, position, rotation, scale }) => {
   );
 };
 
-export default Mars;
+export default Mercury;

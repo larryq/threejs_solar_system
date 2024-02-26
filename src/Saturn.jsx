@@ -5,6 +5,7 @@ import { useTexture } from "@react-three/drei";
 import JupiterFresnel from "./effects/JupiterFresnel";
 import Marker from "./effects/Marker";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import Rings from "./effects/Rings";
 
 const Planet = ({ camRef, position, rotation, scale }) => {
   const materialRef = useRef();
@@ -12,7 +13,7 @@ const Planet = ({ camRef, position, rotation, scale }) => {
   const groupRef = useRef();
   const markerRef = useRef();
 
-  const [map] = useTexture(["8k_jupiter.jpg"]);
+  const [map] = useTexture(["8k_saturn.jpg"]);
 
   const matOpts = {
     map: map,
@@ -63,6 +64,9 @@ const Planet = ({ camRef, position, rotation, scale }) => {
           <icosahedronGeometry args={[2, 11]} />
           <shaderMaterial attach="material" {...JupiterFresnel} />
         </mesh>
+        <group>
+          <Rings />
+        </group>
         <group position={markerPosition} ref={markerRef}>
           <Marker scale={1} rotation={rotation}>
             <div
@@ -79,7 +83,7 @@ const Planet = ({ camRef, position, rotation, scale }) => {
             >
               Click
             </div>
-            <FaMapMarkerAlt style={{ color: "indianred" }} />
+            <FaMapMarkerAlt style={{ color: "blue" }} />
           </Marker>
         </group>
       </group>
@@ -87,7 +91,7 @@ const Planet = ({ camRef, position, rotation, scale }) => {
   );
 };
 
-const Jupiter = ({ camRef, position, rotation, scale }) => {
+const Saturn = ({ camRef, position, rotation, scale }) => {
   return (
     <Planet
       camRef={camRef}
@@ -98,4 +102,4 @@ const Jupiter = ({ camRef, position, rotation, scale }) => {
   );
 };
 
-export default Jupiter;
+export default Saturn;

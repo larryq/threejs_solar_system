@@ -8,6 +8,8 @@ export default function Starz() {
       count={5000}
       factor={4}
       saturation={0}
+      size={1}
+      scale={5}
       fade
       speed={1}
     />

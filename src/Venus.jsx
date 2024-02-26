@@ -8,10 +8,13 @@ const Planet = ({ camRef, position, rotation, scale }) => {
   const materialRef = useRef();
   const meshRef = useRef();
   const groupRef = useRef();
+  const cloudRef = useRef();
 
-  const [map, normalMap] = useTexture([
+  const [map, normalMap, cloudMap, cloudTransMap] = useTexture([
     "8k_venus_surface.jpg",
     "venus_normal_map_8k.png",
+    "04_earthcloudmap.jpg",
+    "05_earthcloudmaptrans.jpg",
   ]);
 
   const matOpts = {
@@ -22,7 +25,8 @@ const Planet = ({ camRef, position, rotation, scale }) => {
   useFrame((state, delta) => {
     const { clock, size } = state;
 
-    meshRef.current.rotation.y += delta / 30;
+    meshRef.current.rotation.y -= delta / 30;
+    cloudRef.current.rotation.y += delta / 20;
   });
 
   return (
@@ -50,6 +54,26 @@ const Planet = ({ camRef, position, rotation, scale }) => {
           //attach="material"
           args={[matOpts]}
         ></meshPhongMaterial>
+      </mesh>
+      <mesh
+        scale={3.013}
+        ref={cloudRef}
+        position={position}
+        rotation={rotation}
+      >
+        <icosahedronGeometry args={[1, 12]} />
+        <meshStandardMaterial
+          //attach="material"
+          args={[
+            {
+              map: cloudMap,
+              alphaMap: cloudTransMap,
+              opacity: 0.25,
+              transparent: false,
+              blending: THREE.AdditiveBlending,
+            },
+          ]}
+        ></meshStandardMaterial>
       </mesh>
       <mesh position={position} rotation={rotation} scale={scale * 1.01}>
         <icosahedronGeometry args={[2, 11]} />

@@ -12,7 +12,7 @@ const Planet = ({ camRef, position, rotation, scale }) => {
   const groupRef = useRef();
   const markerRef = useRef();
 
-  const [map] = useTexture(["8k_jupiter.jpg"]);
+  const [map] = useTexture(["2k_neptune.jpg"]);
 
   const matOpts = {
     map: map,
@@ -79,7 +79,7 @@ const Planet = ({ camRef, position, rotation, scale }) => {
             >
               Click
             </div>
-            <FaMapMarkerAlt style={{ color: "indianred" }} />
+            <FaMapMarkerAlt style={{ color: "green" }} />
           </Marker>
         </group>
       </group>
@@ -87,7 +87,7 @@ const Planet = ({ camRef, position, rotation, scale }) => {
   );
 };
 
-const Jupiter = ({ camRef, position, rotation, scale }) => {
+const Neptune = ({ camRef, position, rotation, scale }) => {
   return (
     <Planet
       camRef={camRef}
@@ -98,4 +98,4 @@ const Jupiter = ({ camRef, position, rotation, scale }) => {
   );
 };
 
-export default Jupiter;
+export default Neptune;

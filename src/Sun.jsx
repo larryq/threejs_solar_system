@@ -3,13 +3,21 @@ import { useFrame } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
 import SunShader from "./effects/SunShader";
+import SunFresnel from "./effects/SunFresnel";
 //import MyCustomShader from "./effects/SunShader";
 
 const Sun = ({ camRef, position, rotation, scale }) => {
   const sunRef = useRef();
   const matRef = useRef();
+  const groupRef = useRef();
 
   const [noise] = useTexture(["sunNoise.png"]);
+  const [map] = useTexture(["8k_sun.jpg"]);
+
+  const matOpts = {
+    map: map,
+    //normalMap: normalMap,
+  };
 
   useFrame((state, delta) => {
     if (matRef.current) {
@@ -26,9 +34,10 @@ const Sun = ({ camRef, position, rotation, scale }) => {
     }
   });
   return (
-    <mesh ref={sunRef} position={position} rotation={rotation} scale={scale}>
-      <icosahedronGeometry args={[1, 12]} />
-      <shaderMaterial
+    <group ref={groupRef}>
+      <mesh ref={sunRef} scale={scale} position={position} rotation={rotation}>
+        <icosahedronGeometry args={[1, 12]} />
+        {/* <shaderMaterial
         ref={matRef}
         attach="material"
         // {...SunShader}
@@ -43,13 +52,18 @@ const Sun = ({ camRef, position, rotation, scale }) => {
           noiseScale: { value: 2.0 },
           noiseAmplitude: { value: 3.0 },
         }}
-      />
-    </mesh>
-    /*     <MyCustomShader
-      position={position}
-      rotation={rotation}
-      scale={scale}
-    ></MyCustomShader> */
+      /> */}
+        <meshPhongMaterial
+          //attach="material"
+          args={[matOpts]}
+          side={THREE.DoubleSide}
+        ></meshPhongMaterial>
+      </mesh>
+      <mesh position={position} scale={2.001} rotation={rotation}>
+        <icosahedronGeometry args={[2, 11]} />
+        <shaderMaterial attach="material" {...SunFresnel} />
+      </mesh>
+    </group>
   );
 };
 

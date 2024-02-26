@@ -9,6 +9,9 @@ import {
   useTexture,
   useProgress,
   Html,
+  Text,
+  ScreenSpace,
+  Box,
 } from "@react-three/drei";
 
 import Starz from "./Stars";
@@ -20,6 +23,7 @@ import Mars from "./Mars.jsx";
 import Venus from "./Venus.jsx";
 import Jupiter from "./Jupiter.jsx";
 import * as THREE from "three";
+import Saturn from "./Saturn.jsx";
 
 export default function App() {
   const ref = useRef();
@@ -41,46 +45,72 @@ export default function App() {
           environment={false}
         >
           <Starz />
-          <Earth camRef={cameraControlsRef} position={[25, 0, 0]} />
-          <Uranus
-            camRef={cameraControlsRef}
-            position={[50, 0, 0]}
-            rotation={[0, Math.PI, 0]}
-            scale={4.5}
-          />
-          <Sun
-            camRef={cameraControlsRef}
-            position={[0, 0, 0]}
-            rotation={[0, Math.PI, 0]}
-            scale={3.5}
-          />
-          <Mars
-            camRef={cameraControlsRef}
-            position={[35, 0, 0]}
-            rotation={[0, Math.PI, 0]}
-            scale={1.5}
-          />
-          <Venus
-            camRef={cameraControlsRef}
-            position={[15, 0, 0]}
-            rotation={[0, Math.PI, 0]}
-            scale={1.5}
-          />
-          <Jupiter
-            camRef={cameraControlsRef}
-            position={[40, 0, 0]}
-            rotation={[0, Math.PI, 0]}
-            scale={5.5}
-          />
+          <group>
+            <Earth camRef={cameraControlsRef} position={[25, 0, 5]} />
+            <Uranus
+              camRef={cameraControlsRef}
+              position={[70, 0, 0]}
+              rotation={[0, Math.PI, 0]}
+              scale={4.5}
+            />
+            <Sun
+              camRef={cameraControlsRef}
+              position={[0, 0, 0]}
+              rotation={[0, Math.PI, 0]}
+              scale={8.5}
+            />
+            <Mars
+              camRef={cameraControlsRef}
+              position={[35, 0, 9]}
+              rotation={[0, Math.PI, 0]}
+              scale={2.5}
+            />
+            <Venus
+              camRef={cameraControlsRef}
+              position={[15, 0, -6]}
+              rotation={[0, Math.PI, 0]}
+              scale={1.5}
+            />
+            <Jupiter
+              camRef={cameraControlsRef}
+              position={[-50, 0, -21]}
+              rotation={[0, Math.PI, 0]}
+              scale={4.5}
+            />
+            <Saturn
+              camRef={cameraControlsRef}
+              position={[-65, 0, -8]}
+              rotation={[0, Math.PI, 0]}
+              scale={4.0}
+            />
+          </group>
+          {/*           <Text
+            color="white"
+            anchorX="center"
+            anchorY="middle"
+            onClick={() => {
+              console.log("sdfsdfsf");
+            }}
+          >
+            hello world!
+          </Text> */}
           {/* <Environment files="hdr.hdr" background /> */}
         </Stage>
       </Suspense>
+      {/*       <Html visible={false}>
+        <div
+          style={{ position: "absolute", top: 30, left: 10, color: "white" }}
+        >
+          Overlay Text Example
+        </div>
+      </Html> */}
       <CameraControls
         ref={cameraControlsRef}
         //minDistance={minDistance}
         enabled={true}
         verticalDragToForward={false}
         dollySpeed={0.11}
+
         //dollyToCursor={dollyToCursor}
         //infinityDolly={infinityDolly}
       />

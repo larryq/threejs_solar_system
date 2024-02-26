@@ -60,7 +60,7 @@ void main() {
   float noiseValue = perlin3(noiseOffset) * noiseAmplitude;
 
   // Blend base color with noise value for a sun-like appearance
-  vec3 finalColor = mix(sunColor, vec3(1.0,0.,0.)/*sunColor * (1.0 + noiseValue)*/, noiseValue);
+  vec3 finalColor = mix(sunColor, sunColor * (1.0 - noiseValue), noiseValue);
 
 
   // Apply lighting and other effects here if needed
