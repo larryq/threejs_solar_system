@@ -50,21 +50,7 @@ const Planet = ({ camRef, position, rotation, scale }) => {
   return (
     <>
       <group ref={groupRef} position={position} rotation={rotation}>
-        <mesh
-          scale={scale}
-          ref={meshRef}
-          onClick={() => {
-            camRef.current?.setLookAt(
-              meshRef.current.geometry.boundingSphere.radius + 3,
-              meshRef.current.geometry.boundingSphere.radius - 3,
-              meshRef.current.geometry.boundingSphere.radius + 3,
-              meshRef.current.position.x,
-              meshRef.current.position.y,
-              meshRef.current.position.z,
-              true
-            );
-          }}
-        >
+        <mesh scale={scale} ref={meshRef} onClick={() => {}}>
           <icosahedronGeometry args={[2, 11]} />
           <meshPhongMaterial
             //attach="material"

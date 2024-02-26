@@ -1,5 +1,5 @@
 import "./style.css";
-import React, { Suspense, useRef } from "react";
+import React, { Suspense, useRef, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
   OrbitControls,
@@ -40,14 +40,13 @@ export default function App() {
   function Loader2() {
     return (
       <Html>
-        {" "}
         <div className="loading">Loading...</div>
       </Html>
     );
   }
 
   return (
-    <Canvas shadows dpr={[1, 2]} camera={{ fov: 50 }}>
+    <Canvas shadows dpr={[1, 2]} camera={{ position: [35, 10, 55], fov: 50 }}>
       <color attach="background" args={["black"]} />
       <Suspense fallback={<Loader2 />}>
         <Stage
